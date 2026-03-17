@@ -1,5 +1,5 @@
-#ifndef top_ip_vector.hpp
-#define top_ip_vector.hpp
+#ifndef top_ip_vector_hpp
+#define top_ip_vector_hpp
 #include <cstddef>
 template <class T>
 struct Vector
