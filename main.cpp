@@ -13,13 +13,14 @@ int main()
       "Empty vector", testEmptyVector
     }
   };
-  /*
-  bool(*tests[])() = {
-    testEmptyVector
-  }; */
-  const size_t count = sizeof(tests) / sizeof(bool(*)());
+  const size_t count = sizeof(tests) / sizeof(test_t);
+  std::cout << std::boolalpha;
+  bool pass = true;
   for (size_t i = 0; i < count; ++i)
   {
-    std::cout << testEmptyVector() << "\n";
+    bool res = tests[i].second();
+    std::cout << tests[i].first<< ": " << res << "\n";
+    pass = pass && res;
   }
+  std::cout << "RESULT" << pass << "\n";
 }
