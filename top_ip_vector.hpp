@@ -1,10 +1,30 @@
 #ifndef top_ip_vector_hpp
 #define top_ip_vector_hpp
 #include <cstddef>
+namespace topit {
+  template <class T>
+  struct Vector
+  {
+    ~Vector();
+    Vector();
+    bool isEmpty() const noexcept;
+  private:
+    T* data_;
+    size_t size_, capacity_;
+  };
+}
 template <class T>
-struct Vector
+topit::Vector< T >::~Vector()
+{}
+template <class T>
+topit::Vector<T>::Vector():
+  data_(nullptr),
+  size_(0),
+  capacity_(0)
+{}
+template< class T >
+bool topit::Vector<T>::isEmpty() const noexcept
 {
-  T* data;
-  size_t size, capacity;
-};
+  return false;
+}
 #endif
