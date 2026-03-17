@@ -23,5 +23,5 @@ int main()
     std::cout << tests[i].first<< ": " << res << "\n";
     pass = pass && res;
   }
-  std::cout << "RESULT" << pass << "\n";
+  std::cout << "Total: " << pass << "\n";
 }
