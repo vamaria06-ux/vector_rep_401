@@ -25,11 +25,6 @@ namespace topit {
   };
 }
 template <class T>
-void topit::Vector<T>::push_back(const T&v)
-{
-
-}
-template <class T>
 topit::Vector< T >::~Vector()
 {
   delete[] data_;
@@ -67,7 +62,7 @@ void topit::Vector<T>::push_back(const T& v)
     } else{
       newcap = capacity_ + 1;
     }
-    T* newdata = new t[newcap];
+    T* newdata = new T[newcap];
     for (size_t i = 0; i < size_; i++)
     {
       newdata[i] = data_[i];
