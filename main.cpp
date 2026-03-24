@@ -1,7 +1,11 @@
 #include <iostream>
 #include "top_ip_vector.hpp"
+// подсчет пройденных непройденных ттестов 
+// выводить только непрошедшие тесты
+// 
 bool testEmptyVector()
 {
+  //std::cout << __func__<<"\n"; вывод названия функции
   topit::Vector<int> v;
   return v.isEmpty();
 }
