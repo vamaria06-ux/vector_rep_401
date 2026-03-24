@@ -36,6 +36,35 @@ bool testElementOutOfBoundAccess()
     return false;
   }
 }  
+bool testElementInboundConstAccess()
+{
+  topit::Vector<int> v;
+  v.push_back(1);
+  topit::Vector<int> rv = v;;
+  try {
+    const int & val = rv.at(0);
+    return val == 1;
+  } catch ( ...)
+  {
+    return false;
+  }
+}
+bool testElementOutOfConstBoundCAccess()
+{
+  topit::Vector<int> v;
+  const topit::Vector<int> & rv = v;
+  try {
+    v.at(0);
+    return false;
+  }
+  catch (const std::out_of_range &)
+  {
+    return true;
+  } catch (...)
+  {
+    return false;
+  }
+}   
 bool testSize()
 {
   topit::Vector<int> v;
@@ -131,7 +160,9 @@ int main()
     {"test changes of capacity", testCapacityMultiple},
     {"test capacity if popback's", testCapacityPopback},
     {"test element", testElementAccess},
-    {"test elemet 2", testElementOutOfBoundAccess}
+    {"test elemet 2", testElementOutOfBoundAccess},
+    {"Inbound const accsess", testElementInboundConstAccess},
+    {"Out of bound const access", testElementOutOfConstBoundCAccess}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
