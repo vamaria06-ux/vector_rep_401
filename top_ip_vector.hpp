@@ -91,19 +91,27 @@ void topit::Vector<T>::popback()
 template <class T>
 T& topit::Vector<T>::at(size_t id)
 {
-  if (id < getsize())
-  {
-    return data_[id];
-  }
-  throw std::range_error("bad id");
+  const Vector<T> *cthis = this;
+  return const_cast<T&>(cthis -> at(id));
 }
 template <class T>
 const T& topit::Vector<T>::at(size_t id) const
 {
   if (id < getsize())
   {
-    return data_[id];
+    return (*this)[id];
   }
-  throw std::range_error("bad id");
+  throw std::out_of_range("bad id");
+}
+template <class T>
+T& topit::Vector<T>::operator[](size_t id) noexcept
+{
+  const Vector<T>* cthis = this;
+  return const_cast<T&>((*cthis)[id]);
+}
+template <class T>
+const T& topit::Vector<T>::operator[](size_t id) const noexcept
+{
+  return data_[id];
 }
 #endif
