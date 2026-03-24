@@ -144,7 +144,24 @@ bool testCapacityPopback()
   return v.getcapacity() == firstCap;
 
 }
-
+bool testCopyConstructorforEmpty()
+{
+  topit::Vector<int> v;
+  topit::Vector<int> yav = v;
+  return v == yav;
+  try {
+    return yav.getsize() == v.getsize() && yav.at(0) == v.at(0);
+  } catch(...)
+  {
+    return false;
+  }
+}
+bool testCopyConstructorNoEmpty()
+{
+  topit::Vector<int> v;
+  v.push_back(1);
+  topit::Vector<int> yav ;
+}
 int main()
 {
   using test_t = std::pair < const char*, bool(*)() >;
@@ -162,7 +179,9 @@ int main()
     {"test element", testElementAccess},
     {"test elemet 2", testElementOutOfBoundAccess},
     {"Inbound const accsess", testElementInboundConstAccess},
-    {"Out of bound const access", testElementOutOfConstBoundCAccess}
+    {"Out of bound const access", testElementOutOfConstBoundCAccess},
+    {"Test copy constructor for Empty", testCopyConstructorforEmpty},
+    {"Test copy constructor for no empty", testCopyConstructorNoEmpty}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
