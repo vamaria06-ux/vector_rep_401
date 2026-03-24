@@ -9,6 +9,33 @@ bool testEmptyVector()
   topit::Vector<int> v;
   return v.isEmpty();
 }
+bool testElementAccess()
+{
+  topit::Vector<int> v;
+  v.push_back(1);
+  try {
+    int & val = v.at(0);
+    return val == 1;
+  } catch ( ...)
+  {
+    return false;
+  }
+}
+bool testElementOutOfBoundAccess()
+{
+  topit::Vector<int> v;
+  try {
+    v.at(0);
+    return false;
+  }
+  catch (const std::out_of_range &)
+  {
+    return true;
+  } catch (...)
+  {
+    return false;
+  }
+}  
 bool testSize()
 {
   topit::Vector<int> v;
@@ -102,7 +129,9 @@ int main()
     {"test single popback after pushback",testPopback },
     {"test if try to popback empty list", testPopbackEmpty},
     {"test changes of capacity", testCapacityMultiple},
-    {"test capacity if popback's", testCapacityPopback}
+    {"test capacity if popback's", testCapacityPopback},
+    {"test element", testElementAccess},
+    {"test elemet 2", testElementOutOfBoundAccess}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
