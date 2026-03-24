@@ -10,6 +10,7 @@ namespace topit {
 
     Vector(const Vector&);
     Vector(Vector&&);
+    Vector(size_t size, const T&init);
 
     Vector& operator = (const Vector&);
     Vector& operator=(Vector&&);
@@ -23,6 +24,7 @@ namespace topit {
     T& at(size_t id);
     const T& at(size_t id) const;
 
+    void swap(Vector<T>) noexcept;
     void push_back(const T& v);
     void popback();
     void insert(size_t i, const T& v);
@@ -30,6 +32,7 @@ namespace topit {
   private:
     T* data_;
     size_t size_, capacity_;
+    Vector(size_t size);
   };
   template <class T>
   bool operator== (const Vector<T>& lhs, const Vector<T>& rhs);
@@ -41,6 +44,7 @@ bool topit::operator==(const Vector<T>& rhs, const Vector<T>& lhs)
   for (size_t i = 0; i < lhs.getsize() && (isEqual = isEqual && lhs[i] == rhs[i]); ++i );
   return isEqual;
 }
+
 template <class T>
 topit::Vector< T >::~Vector()
 {
@@ -127,14 +131,87 @@ const T& topit::Vector<T>::operator[](size_t id) const noexcept
   return data_[id];
 }
 template< class T >
-topit::Vector<T>::Vector(const Vector& other):
-  data_(new T[other.cap_]),
-  size_(0),
-  cap_(other.cap_)
+topit::Vector<T>::Vector(const Vector& rhs):
+  Vector(rhs.getsize())
+  /*data_(rhs.getsize() ? new t[rhs.getsize()] : nullptr),
+  size_(rhs.getsize()),
+  capacity_(rhs.getsize()) */
 {
-  for (size_t i = 0; i < other.size_; ++i) {
-    data_[i] = other.data_[i];
-    size_++;
+  for (size_t i = 0; i < rhs.getsize(); ++i)
+  {
+    try {
+      data_[i] = rhs[i];
+    } catch(...)
+    {
+      delete [] data_;
+      throw;
+    }
   }
+}
+template <class T>
+topit::Vector<T>::Vector(size_t size):
+  data_(size ?? new T[size] : nullptr),
+  size_(size),
+  capacity_(size)
+{}
+template <class T>
+topit::Vector<T>::Vector(size_t size, const T& init)
+  Vector(size)
+{
+  for (szie_ t i = 0; i < size ; ++i)
+  {
+    data_[i] = init;
+  }
+}
+template <class T>
+void::topit::Vector<T>::swap(Vector<T>& rhs ) noexcept
+{
+  std::swap(data_, rhs.data_);
+  std::swap(size_,rhs.size_);
+  std::swap(capacity, rhs.capacity_);
+}
+template <class T>
+topit::Vector<T>& topit::Vector<T>:: operator=(const Vector<T>& rhs) // конструктор копирования
+{
+  Vector<T> cpy = rhs;
+  // free data of this
+  // this <- cpy
+  // dtat this <-> cpy
+  // ~cpy -> free data 
+  swap(cpy);
+  return *this;
+}
+template <class T>
+topit::Vector<T>& topit::Vector<T>:: operator =(Vector<T>&& rhs)
+{
+  Vector<T> cpy(std:;move(rhs));
+  swap(cpy);
+  return *this;
+}
+template <class T>
+topit::Vector<T>& topit::Vector<T>:: operator =(const Vector<T>&& rhs)
+{
+  if (this == std::addressof(rhs))
+  {
+    retirn *this;
+  }
+  Vector<T> cpy(std:;move(rhs));
+  swap(cpy);
+  return *this;
+}
+template <class T>
+topit::Vector<T>::Vector(<T>&& rhs) noexcept
+  data_(rhs.data_),
+  size_(rhs.size_),
+  capacity_(rhs.capacity_)
+{
+  rhs.data_ = 
+}
+template <class T>
+void topit::Vector<T>::changeVectorInSomeway()
+{
+  Vector<T> cpy(*this);
+  cpy.push_back(T());
+  swap(cpy);  // SWAP NOEXCEPT!!!
 }
 #endif

@@ -2,7 +2,16 @@
 #include "top_ip_vector.hpp"
 // подсчет пройденных непройденных ттестов 
 // выводить только непрошедшие тесты
-// 
+// тестирование для компирования и перемещения 
+// insert earase тесты - для диапозана значений из другого вектора 
+// void insert(size_t i, const Vector<T>& rhs, size_t start, size_t end)
+// void erase(szie_t strat, size_t end) везде должна быть строгая гарантия 
+// insert test x2
+// erase test x 2
+
+// итераторы для вектора
+//по 3 шт + тесты снизу 
+// придумать несколько insert erase с итераторами void insert (VectorIterator pos, FwdIterator begin, FwdIterator end)
 bool testEmptyVector()
 {
   //std::cout << __func__<<"\n"; вывод названия функции
