@@ -176,6 +176,23 @@ bool testInitializerList()
   topit::Vector<int> v{1,2};
   return v.getsize() == 2 && (v[0] == 1) && ( v[1] == 2);
 }
+bool testInsertRangeBasic()
+{
+  topit::Vector<int> v{1,2,3};
+  topit::Vector<int> rhs{10,20,30};
+
+  v.insert(1, rhs, 0, 2);
+
+  return v.getsize() == 5 && v[0] == 1 && v[1] == 10 && v[2] == 20 && v[3] == 2 && v[4] == 3;
+}
+bool testInsertRangeSelf()
+{
+  topit::Vector<int> v{1,2,3};
+
+  v.insert(1, v, 0, 2);
+
+  return v.getsize() == 5 && v[1] == 1 && v[2] == 2;
+}
 int main()
 {
   using test_t = std::pair < const char*, bool(*)() >;
@@ -196,7 +213,9 @@ int main()
     { "Out of bound const accsess", testElementOutOfBoundConstAccess },
     { "Copy empty vector", testCopyConstructorForEmpty },
     { "Copy non-empty vector", testCopyConstructorForNonEmpty },
-    { "Non-empty vector for non-empty initializer list", testInitializerList }
+    { "Non-empty vector for non-empty initializer list", testInitializerList },
+    {"Insert range basic",testInsertRangeBasic},
+    {"Insert range self",testInsertRangeSelf}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;

@@ -266,6 +266,28 @@ void topit::Vector<T>::popback()
   }
   size_--;
 }
+template <class T>
+void topit::Vector<T>::insert(size_t i, const Vector<T>& rhs, size_t start,size_t end)
+{
+  if ( i > size_ || start > end || end > rhs.size_)
+  {
+    throw std::out_of_range("bad insert");
+  }
+  Vector<T> tmp;
+  for (size_t j = 0; j < i; ++j)
+  {
+    tmp.push_back(data_[j]);
+  }
+  for (size_t j = start ; j < end; ++j)
+  {
+    tmp.push_back(rhs[j]);
+  }
+  for (size_t j = i; j < size_; ++j)
+  {
+    tmp.push_back(data_[j]);
+  }
+  topit::Vector<T>::swap(tmp);
+}
 /*
 template <class T>
 topit::Vector<T>& move_assign()
