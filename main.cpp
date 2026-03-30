@@ -226,6 +226,27 @@ bool testIteratorEmpty()
   topit::Vector<int> v;
   return v.begin() == v.end();
 }
+bool testInsertIteratorArray()
+{
+  topit::Vector<int> v{1,2,3};
+  int arr[] = {10,20};
+  v.insert(v.begin() + 1, arr, arr + 2);
+  return v.getsize() == 5 && v[1] == 10 && v[2] == 20;
+}
+bool testInsertIteratorBegin()
+{
+  topit::Vector<int> v{1,2,3};
+  int arr[] = {7,8};
+  v.insert(v.begin(), arr, arr + 2);
+  return v[0] == 7 && v[1] == 8;
+}
+bool testInsertIteratorEnd()
+{
+  topit::Vector<int> v{1,2,3};
+  int arr[] = {9};
+  v.insert(v.end(), arr, arr + 1);
+  return v.getsize() == 4 && v[3] == 9;
+}
 int main()
 {
   using test_t = std::pair < const char*, bool(*)() >;
@@ -253,7 +274,10 @@ int main()
     {"Erase range all vector",testEraseRangeAll},
     {"Iterator test sum in vector",testIteratorSum},
     {"Const iterator test sum in vector",testConstIterator},
-    {"Interator in empty vector",testIteratorEmpty}
+    {"Interator in empty vector",testIteratorEmpty},
+    {"Insert with iterator",testInsertIteratorArray},
+    {"Insert with iterator begin",testInsertIteratorBegin},
+    {"Insert with iterator end",testInsertIteratorEnd}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;

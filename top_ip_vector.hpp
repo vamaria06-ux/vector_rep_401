@@ -330,6 +330,31 @@ const T* topit::Vector<T>::end() const noexcept
 {
   return data_ + size_;
 }
+template <class T>
+template< class VectorIterator, class FwdIterator >
+void topit::Vector<T>::insert(VectorIterator pos, FwdIterator begin, FwdIterator end)
+{
+  size_t index = pos - data_;
+  size_t count = 0;
+  for (auto it = begin; it != end; ++it)
+  {
+    ++count;
+  }
+  Vector<T> tmp;
+  for (size_t i = 0; i < index; ++i)
+  {
+    tmp.push_back(data_[i]);
+  }
+  for (auto it = begin; it != end; ++it)
+  {
+    tmp.push_back(*it);
+  }
+  for (size_t i = index; i < size_; ++i)
+  {
+    tmp.push_back(data_[i]);
+  }
+  topit::Vector<T>::swap(tmp);
+}
 /*
 template <class T>
 topit::Vector<T>& move_assign()
