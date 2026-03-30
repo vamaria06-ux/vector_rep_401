@@ -201,6 +201,31 @@ bool testEraseRangeAll()
   v.erase(0,3);
   return v.isEmpty();
 }
+bool testIteratorSum()
+{
+  topit::Vector<int> v{1,2,3};
+  int sum = 0;
+  for (auto it = v.begin(); it != v.end(); ++it)
+  {
+    sum += *it;
+  }
+  return sum == 6;
+}
+bool testConstIterator()
+{
+  const topit::Vector<int> v{1,2,3};
+  int sum = 0;
+  for (auto it = v.begin(); it != v.end(); ++it)
+  {
+    sum += *it;
+  }
+  return sum == 6;
+}
+bool testIteratorEmpty()
+{
+  topit::Vector<int> v;
+  return v.begin() == v.end();
+}
 int main()
 {
   using test_t = std::pair < const char*, bool(*)() >;
@@ -225,7 +250,10 @@ int main()
     {"Insert range basic",testInsertRangeBasic},
     {"Insert range self",testInsertRangeSelf},
     {"Erasse range middle vector",testEraseRangeMiddle},
-    {"Erase range all vector",testEraseRangeAll}
+    {"Erase range all vector",testEraseRangeAll},
+    {"Iterator test sum in vector",testIteratorSum},
+    {"Const iterator test sum in vector",testConstIterator},
+    {"Interator in empty vector",testIteratorEmpty}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;

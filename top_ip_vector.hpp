@@ -48,6 +48,10 @@ namespace topit {
     template< class VectorIterator, class FwdIterator >
     void insert(VectorIterator pos, FwdIterator begin, FwdIterator end);
 
+    T* begin() noexcept;
+    T* end() noexcept;
+    const T* begin() const noexcept;
+    const T* end() const noexcept;
   private:
     T* data_;
     size_t size_, capacity_;
@@ -305,6 +309,26 @@ void topit::Vector<T>::erase(size_t start, size_t end)
     tmp.push_back(data_[i]);
   }
   topit::Vector<T>::swap(tmp);
+}
+template <class T>
+T* topit::Vector<T>::begin() noexcept
+{
+  return data_;
+}
+template <class T>
+T* topit::Vector<T>::end() noexcept
+{
+  return data_ + size_;
+}
+template <class T>
+const T* topit::Vector<T>::begin() const noexcept
+{
+  return data_;
+}
+template <class T>
+const T* topit::Vector<T>::end() const noexcept
+{
+  return data_ + size_;
 }
 /*
 template <class T>
