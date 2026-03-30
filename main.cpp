@@ -122,7 +122,6 @@ bool testPopbackEmpty()
     v.popback();
   }catch(const std::exception& e)
   {
-    std::cerr << e.what() << '\n';
     return true;
   }
   return false;
@@ -205,9 +204,18 @@ int main()
   for (size_t i = 0; i < count; ++i)
   {
     bool res = tests[i].second();
-    std::cout << tests[i].first<< ": " << res << "\n";
+    if (!res)
+    {
+      std::cout << tests[i].first << ": FAILD\n";
+    }
     pass = pass && res;
   }
-  std::cout << "Total: " << pass << "\n";
+  if (pass)
+  {
+    std::cout << "All tests passed\n";
+  }
+  else
+  {
+    std::cout << "Some tests failed\n";
+  }
 }
-
