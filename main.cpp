@@ -1,5 +1,6 @@
 #include <iostream>
 #include "top_ip_vector.hpp"
+#include <iomanip>
 // подсчет пройденных непройденных ттестов 
 // выводить только непрошедшие тесты
 // тестирование для компирования и перемещения 
@@ -18,7 +19,7 @@ bool testEmptyVector()
   topit::Vector<int> v;
   return v.isEmpty();
 }
-bool testElementAccess()
+bool testElementInboundAccess()
 {
   topit::Vector<int> v;
   v.push_back(1);
@@ -32,7 +33,7 @@ bool testElementAccess()
 }
 bool testElementOutOfBoundAccess()
 {
-  topit::Vector<int> v;
+  const topit::Vector<int> v;
   try {
     v.at(0);
     return false;
@@ -49,7 +50,7 @@ bool testElementInboundConstAccess()
 {
   topit::Vector<int> v;
   v.push_back(1);
-  topit::Vector<int> rv = v;;
+  const topit::Vector<int> & rv = v;;
   try {
     const int & val = rv.at(0);
     return val == 1;
@@ -58,10 +59,9 @@ bool testElementInboundConstAccess()
     return false;
   }
 }
-bool testElementOutOfConstBoundCAccess()
+bool testElementOutOfBoundConstAccess()
 {
-  topit::Vector<int> v;
-  const topit::Vector<int> & rv = v;
+  const topit::Vector<int> v;
   try {
     v.at(0);
     return false;
@@ -153,23 +153,29 @@ bool testCapacityPopback()
   return v.getcapacity() == firstCap;
 
 }
-bool testCopyConstructorforEmpty()
+bool testCopyConstructorForEmpty()
 {
   topit::Vector<int> v;
   topit::Vector<int> yav = v;
   return v == yav;
-  try {
+}
+bool testCopyConstructorForNonEmpty()
+{
+  topit::Vector<int> v;
+  v.push_back(1);
+  topit::Vector<int> yav = v;
+  try
+  {
     return yav.getsize() == v.getsize() && yav.at(0) == v.at(0);
-  } catch(...)
+  } catch (...)
   {
     return false;
   }
 }
-bool testCopyConstructorNoEmpty()
+bool testInitializerList()
 {
-  topit::Vector<int> v;
-  v.push_back(1);
-  topit::Vector<int> yav ;
+  topit::Vector<int> v{1,2};
+  return v.getsize() == 2 && (v[0] == 1) && ( v[1] == 2);
 }
 int main()
 {
@@ -185,12 +191,13 @@ int main()
     {"test if try to popback empty list", testPopbackEmpty},
     {"test changes of capacity", testCapacityMultiple},
     {"test capacity if popback's", testCapacityPopback},
-    {"test element", testElementAccess},
-    {"test elemet 2", testElementOutOfBoundAccess},
-    {"Inbound const accsess", testElementInboundConstAccess},
-    {"Out of bound const access", testElementOutOfConstBoundCAccess},
-    {"Test copy constructor for Empty", testCopyConstructorforEmpty},
-    {"Test copy constructor for no empty", testCopyConstructorNoEmpty}
+    { "Inbound access", testElementInboundAccess },
+    { "Out of bound access", testElementOutOfBoundAccess },
+    { "Inbound const access", testElementInboundConstAccess },
+    { "Out of bound const accsess", testElementOutOfBoundConstAccess },
+    { "Copy empty vector", testCopyConstructorForEmpty },
+    { "Copy non-empty vector", testCopyConstructorForNonEmpty },
+    { "Non-empty vector for non-empty initializer list", testInitializerList }
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
@@ -203,3 +210,4 @@ int main()
   }
   std::cout << "Total: " << pass << "\n";
 }
+

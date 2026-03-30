@@ -5,5 +5,5 @@ main: main.o
 -include main.d
 
 clean:
-	@$(RM) main.d main.o 
-	@$(RM) main
+	-@$(RM) main.d main.o 
+	-@$(RM) main
