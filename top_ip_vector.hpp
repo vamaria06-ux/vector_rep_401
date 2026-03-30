@@ -288,6 +288,24 @@ void topit::Vector<T>::insert(size_t i, const Vector<T>& rhs, size_t start,size_
   }
   topit::Vector<T>::swap(tmp);
 }
+template <class T>
+void topit::Vector<T>::erase(size_t start, size_t end)
+{
+  if (start > end || end > size_)
+  {
+    throw std::out_of_range("bad erase");
+  }
+  Vector<T> tmp;
+  for (size_t i = 0; i < start; ++i)
+  {
+    tmp.push_back(data_[i]);
+  }
+  for (size_t i = end; i < size_; ++i)
+  {
+    tmp.push_back(data_[i]);
+  }
+  topit::Vector<T>::swap(tmp);
+}
 /*
 template <class T>
 topit::Vector<T>& move_assign()

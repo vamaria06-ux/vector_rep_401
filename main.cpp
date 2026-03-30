@@ -180,18 +180,26 @@ bool testInsertRangeBasic()
 {
   topit::Vector<int> v{1,2,3};
   topit::Vector<int> rhs{10,20,30};
-
   v.insert(1, rhs, 0, 2);
-
   return v.getsize() == 5 && v[0] == 1 && v[1] == 10 && v[2] == 20 && v[3] == 2 && v[4] == 3;
 }
 bool testInsertRangeSelf()
 {
   topit::Vector<int> v{1,2,3};
-
   v.insert(1, v, 0, 2);
-
   return v.getsize() == 5 && v[1] == 1 && v[2] == 2;
+}
+bool testEraseRangeMiddle()
+{
+  topit::Vector<int> v{1,2,3,4,5};
+  v.erase(1,4);
+  return v.getsize() == 2 && v[0] == 1 && v[1] == 5;
+}
+bool testEraseRangeAll()
+{
+  topit::Vector<int> v{1,2,3};
+  v.erase(0,3);
+  return v.isEmpty();
 }
 int main()
 {
@@ -215,26 +223,29 @@ int main()
     { "Copy non-empty vector", testCopyConstructorForNonEmpty },
     { "Non-empty vector for non-empty initializer list", testInitializerList },
     {"Insert range basic",testInsertRangeBasic},
-    {"Insert range self",testInsertRangeSelf}
+    {"Insert range self",testInsertRangeSelf},
+    {"Erasse range middle vector",testEraseRangeMiddle},
+    {"Erase range all vector",testEraseRangeAll}
   };
   const size_t count = sizeof(tests) / sizeof(test_t);
   std::cout << std::boolalpha;
   bool pass = true;
+  int passed = 0;
+  int failed = 0;
   for (size_t i = 0; i < count; ++i)
   {
     bool res = tests[i].second();
-    if (!res)
+    if (res)
     {
-      std::cout << tests[i].first << ": FAILD\n";
+      passed++;
+    }
+    else
+    {
+      failed++;
+      std::cout << tests[i].first << ": FAILED\n";
     }
     pass = pass && res;
   }
-  if (pass)
-  {
-    std::cout << "All tests passed\n";
-  }
-  else
-  {
-    std::cout << "Some tests failed\n";
-  }
+  std::cout << "Passed: " << passed << "/" << count << "\n";
+  std::cout << "Failed: " << failed << "\n";
 }
